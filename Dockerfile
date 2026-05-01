@@ -25,12 +25,17 @@ COPY . .
 # Install dependencies
 RUN composer install --no-dev --optimize-autoloader
 
-# Permissions
+# Fix permissions (IMPORTANT)
 RUN chown -R www-data:www-data /var/www \
-    && chmod -R 755 /var/www
+    && chmod -R 775 storage bootstrap/cache
+
+# Clear and cache config (IMPORTANT)
+RUN php artisan config:clear \
+    && php artisan cache:clear \
+    && php artisan view:clear
 
 # Expose port
 EXPOSE 10000
 
-# Start Laravel server
-CMD php artisan serve --host=0.0.0.0 --port=10000
+# Start server using public folder (BETTER)
+CMD php -S 0.0.0.0:10000 -t public
