@@ -30,9 +30,9 @@ RUN chown -R www-data:www-data /var/www \
     && chmod -R 775 storage bootstrap/cache
 
 # Clear and cache config (IMPORTANT)
-RUN php artisan config:clear \
-    && php artisan cache:clear \
-    && php artisan view:clear
+# RUN php artisan config:clear \
+#    && php artisan cache:clear \
+#    && php artisan view:clear
 
 # Expose port
 EXPOSE 10000
